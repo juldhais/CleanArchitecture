@@ -2,6 +2,7 @@ using CleanArchitecture.Application;
 using CleanArchitecture.Persistence;
 using CleanArchitecture.Persistence.Context;
 using CleanArchitecture.WebAPI.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +20,7 @@ var app = builder.Build();
 
 var serviceScope = app.Services.CreateScope();
 var dataContext = serviceScope.ServiceProvider.GetService<DataContext>();
-dataContext?.Database.EnsureCreated();
+await dataContext?.Database.MigrateAsync();
 
 app.UseSwagger();
 app.UseSwaggerUI();
